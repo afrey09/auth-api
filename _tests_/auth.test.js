@@ -1,11 +1,11 @@
 'use strict';
 
 const { server } = require('../src/server');
-const { db, userModel } = require('../src/auth/models');
+const { db } = require('../src/auth/models');
 const supertest = require('supertest');
 const request = supertest(server);
 
-let testWriter;
+//let testWriter;
 
 beforeAll(async () => {
   await db.sync();
@@ -35,6 +35,18 @@ describe('Auth', () => {
   });
 
   it('allows user to login', async () => {
+    // we use the supertest.auth method to create the basic auth string AND send that in the authorization header
+
+    // ** for Basic Auth
+    //* headers: {
+    //Authorization: Basic <some-encoded-string>;
+    //* }
+
+    // ** for Bearer Auth
+    //* headers: {
+    //Authorization: Bearer <some-token>;
+    //* }
+
     let response = await request.post('/signin').auth('testAdmin', 'pass123');
 
     expect(response.status).toEqual(200);
